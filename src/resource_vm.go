@@ -40,6 +40,12 @@ func resourceVM() *schema.Resource {
 				ForceNew: true,
 				Computed: true,
 			},
+			"cloud_init": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+				Computed: true,
+			},
 			"image_release": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
@@ -109,10 +115,13 @@ func resourceServerCreate(d *schema.ResourceData, m interface{}) error {
 		parts = append(parts, "--cpus", string(val.(int)))
 	}
 	if val, ok := d.GetOk("memory_size"); ok {
-		parts = append(parts, "--mem", string(val.(int)))
+		parts = append(parts, "--mem", string(val.(string)))
 	}
 	if val, ok := d.GetOk("disk_size"); ok {
 		parts = append(parts, "--disk", string(val.(string)))
+	}
+	if val, ok := d.GetOk("cloud_init"); ok {
+		parts = append(parts, "--cloud-init", string(val.(string)))
 	}
 
 	cmd := exec.Command("multipass", parts...)
@@ -172,7 +181,7 @@ func resourceServerRead(d *schema.ResourceData, m interface{}) error {
 
 	info := vm.Info[serverName]
 	d.Set("image_hash", info.ImageHash)
-	d.Set("Ipv4", info.Ipv4)
+	d.Set("ipv4", info.Ipv4)
 
 	return nil
 }
