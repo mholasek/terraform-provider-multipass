@@ -172,6 +172,7 @@ func resourceServerRead(d *schema.ResourceData, m interface{}) error {
 
 	info := vm.Info[serverName]
 	d.Set("image_hash", info.ImageHash)
+	d.Set("Ipv4", info.Ipv4)
 
 	return nil
 }
