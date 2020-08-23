@@ -25,6 +25,11 @@ func resourceVM() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"image": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"cpus": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -122,6 +127,9 @@ func resourceServerCreate(d *schema.ResourceData, m interface{}) error {
 	}
 	if val, ok := d.GetOk("cloud_init"); ok {
 		parts = append(parts, "--cloud-init", string(val.(string)))
+	}
+	if val, ok := d.GetOk("image"); ok {
+		parts = append(parts, string(val.(string)))
 	}
 
 	cmd := exec.Command("multipass", parts...)
