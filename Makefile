@@ -27,7 +27,3 @@ install: build
 
 clean:
 	@git clean -f -d -X
-
-plugin-install: build
-	mkdir -p ~/.terraform.d/plugins
-	cp bin/terraform-provider-multipass ~/.terraform.d/plugins/
