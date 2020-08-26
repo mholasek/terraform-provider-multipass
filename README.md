@@ -16,6 +16,20 @@ cp bin/* ~/.terraform.d/plugins/bitmedia.at/bitmedia/multipass/1.0.0/`go env GOO
 ```
 
 ## Example Usage
+### versions.tf
+```terraform
+terraform {
+  required_providers {
+    multipass = {
+      source = "bitmedia.at/bitmedia/multipass"
+      # https://www.terraform.io/docs/configuration/providers.html#provider-source
+    }
+  }
+  required_version = ">= 0.13"
+}
+```
+
+### main.tf
 ```terraform
 resource "multipass_vm" "vm01" {
   name = "vm01"
