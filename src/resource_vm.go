@@ -31,7 +31,7 @@ func resourceVM() *schema.Resource {
 				ForceNew: true,
 			},
 			"cpus": &schema.Schema{
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
@@ -117,7 +117,7 @@ func resourceServerCreate(d *schema.ResourceData, m interface{}) error {
 
 	parts := []string{"launch", "--name", serverName}
 	if val, ok := d.GetOk("cpus"); ok {
-		parts = append(parts, "--cpus", string(val.(int)))
+		parts = append(parts, "--cpus", string(val.(string)))
 	}
 	if val, ok := d.GetOk("memory_size"); ok {
 		parts = append(parts, "--mem", string(val.(string)))
